@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 class MovieModel {
@@ -8,9 +6,9 @@ class MovieModel {
   DateTime releaseDate;
   String boxOffice;
   int duration;
-  String overview;
+  String? overview;
   String coverUrl;
-  String trailerUrl;
+  String? trailerUrl;
   String directedBy;
   int phase;
   String saga;
@@ -25,9 +23,9 @@ class MovieModel {
     required this.releaseDate,
     required this.boxOffice,
     required this.duration,
-    required this.overview,
+    this.overview,
     required this.coverUrl,
-    required this.trailerUrl,
+    this.trailerUrl,
     required this.directedBy,
     required this.phase,
     required this.saga,
