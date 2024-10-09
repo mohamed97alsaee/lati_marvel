@@ -11,8 +11,11 @@ class Api {
 
     String? token = prefs.getString("token");
 
-    final response = await http
-        .get(Uri.parse(url), headers: {"Authrization": "Bearer $token"});
+    final response = await http.get(Uri.parse(url), headers: {
+      "Accept": 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer $token"
+    });
 
     if (kDebugMode) {
       print("GET URL : $url");
@@ -34,8 +37,12 @@ class Api {
         Uri.parse(
           url,
         ),
-        body: json.encode(body),
-        headers: {"Authrization": "Bearer $token"});
+        body: jsonEncode(body),
+        headers: {
+          "Accept": 'application/json',
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        });
     if (kDebugMode) {
       print("POST URL : $url");
       print("POST BODY : ${body}");
@@ -53,8 +60,12 @@ class Api {
         Uri.parse(
           url,
         ),
-        body: json.encode(body),
-        headers: {"Authrization": "Bearer $token"});
+        body: jsonEncode(body),
+        headers: {
+          "Accept": 'application/json',
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        });
     if (kDebugMode) {
       print("PUT URL : $url");
       print("PUT BODY : ${body}");
@@ -72,8 +83,12 @@ class Api {
         Uri.parse(
           url,
         ),
-        body: json.encode(body),
-        headers: {"Authrization": "Bearer $token"});
+        body: jsonEncode(body),
+        headers: {
+          "Accept": 'application/json',
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        });
     if (kDebugMode) {
       print("DELETE URL : $url");
       print("DELETE BODY : ${body}");

@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lati_marvel/helpers/consts.dart';
 import 'package:lati_marvel/helpers/functions_helper.dart';
+import 'package:lati_marvel/main.dart';
 import 'package:lati_marvel/models/movie_model.dart';
+import 'package:lati_marvel/providers/authentication_provider.dart';
 import 'package:lati_marvel/providers/movies_provider.dart';
+import 'package:lati_marvel/widgets/clickables/main_button.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +27,30 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(builder: (context, moviesConsumer, child) {
       return Scaffold(
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: SafeArea(
+            child: Column(
+              children: [
+                MainButton(
+                  text: "Logout",
+                  onPressed: () {
+                    Provider.of<AuthenticationProvider>(context, listen: false)
+                        .logout()
+                        .then((logedOut) {
+                      if (logedOut) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => ScreenRouter()),
+                            (route) => false);
+                      }
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
         appBar: AppBar(
             actions: [
               SizedBox(width: 16),
