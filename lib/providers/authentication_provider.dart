@@ -1,19 +1,25 @@
 import 'dart:convert';
 
+import 'package:lati_marvel/models/user_model.dart';
 import 'package:lati_marvel/providers/base_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationProvider extends BaseProvider {
   bool authenticated = false;
-
+  UserModel? currentUser;
   initializeAuthProvider() async {
     setBusy(true);
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String? token = prefs.getString("token");
     authenticated = (token != null);
 
+
+
+
+    
+    if (authenticated) {
+      api.refreshToken();
+    }
     print("Bearer Token is : $token");
     print("Auth Status is : $authenticated");
 
@@ -86,7 +92,36 @@ class AuthenticationProvider extends BaseProvider {
     }
   }
 
-  refreshToken() {}
+  refreshToken() async {}
 
-  getMe() {}
+  Future<UserModel?> getCurrentUser() async {
+    setBusy(true);
+
+    final response = await api.getRequest("https://lati.kudo.ly/api/user");
+
+    if (response.statusCode == 200) {
+      currentUser = UserModel.fromJson(json.decode(response.body)['data']);
+      setBusy(false);
+      setFailed(false);
+      return currentUser;
+    } else {
+      setBusy(false);
+      setFailed(true);
+      return null;
+    }
+  }
+
+  Future<List> updateUserProfile(UserModel um) async {
+    setBusy(true);
+
+    final response = await api.putRequest(
+        "https://lati.kudo.ly/api/users/update", um.toJson());
+
+    if (response.statusCode == 200) {
+      getCurrentUser();
+      return [true, json.decode(response.body)['data']];
+    } else {
+      return [false, json.decode(response.body)['message']];
+    }
+  }
 }

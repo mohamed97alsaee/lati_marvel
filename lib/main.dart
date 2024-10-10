@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
                 iconTheme: IconThemeData(color: Colors.black),
                 backgroundColor: Colors.white,
                 elevation: 0,
+                titleTextStyle: TextStyle(color: Colors.black),
                 centerTitle: true),
           ),
           home: SplashScreen()),

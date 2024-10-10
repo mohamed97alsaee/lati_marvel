@@ -6,6 +6,7 @@ import 'package:lati_marvel/main.dart';
 import 'package:lati_marvel/models/movie_model.dart';
 import 'package:lati_marvel/providers/authentication_provider.dart';
 import 'package:lati_marvel/providers/movies_provider.dart';
+import 'package:lati_marvel/screens/auth_screens/profile_screen.dart';
 import 'package:lati_marvel/widgets/clickables/main_button.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   asset: "assets/icons/favoriteIcon.png", onTap: () {}),
               SizedBox(width: 8),
               CustomIconButton(
-                  asset: "assets/icons/inboxIcon.png", onTap: () {}),
+                  asset: "assets/icons/inboxIcon.png",
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => ProfileScreen()));
+                  }),
               SizedBox(width: 16),
             ],
             title: Image.asset(
@@ -230,24 +237,29 @@ class CustomIconButton extends StatelessWidget {
   final Function onTap;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: mainColor.withOpacity(0.1), width: 1),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              asset,
-              width: 24,
-              height: 24,
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: mainColor.withOpacity(0.1), width: 1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                asset,
+                width: 24,
+                height: 24,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
